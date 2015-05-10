@@ -1,0 +1,226 @@
+extends layout
+
+block head
+    script(src='/javascripts/index.js')
+
+block content
+ div(ng-app='main' ng-controller='ctr')
+  div.alert.alert-dismissible(ng-show="error_msg", ng-class="{'alert-danger':true}", role="alert")
+    button.close(type="button", data-dismiss="alert", aria-label="Close")
+     span(aria-hidden="true")&times
+    span.glyphicon.glyphicon-exclamation-sign(aria-hidden="true")
+    span.sr-only Error:
+    div {{error_msg}}
+  div.container
+  div.modal.fade#anularCheckOuts(tabindex="-1", role="dialog", aria-labelledby="myModalLabel", aria-hidden="true")
+    div.modal-dialog
+      div.modal-content
+         div.modal-header
+           button.close(type="button", data-dismiss="modal", aria-label="Close")
+             span(aria-hidden="true") &times
+           h4.modal-title Recientes checkouts
+         div.modal-body
+           table.table
+             thead
+               tr
+                th
+                th Id
+                th Nombre y Apellidos
+                th(ng-repeat="k in short_guest_infos") {{k}}
+             tbody
+                tr(ng-repeat="guest in checkedOut", ng-click="guest.selected = !guest.selected")
+                  td
+                    button.btn.btn-default(ng-click="uncheckout(guest)")
+                      span.glyphicon.glyphicon-ok-sign
+                  td {{guest.id}
+                  td {{guest.firstName}} {{guest.lastName}}
+                  td(ng-repeat="k in short_guest_infos") {{guest[k]}}
+         div.modal-footer
+           button.btn.btn-default(type="button", data-dismiss="modal") Descartar
+
+  div.modal.fade#roomSettings(tabindex="-1", role="dialog", aria-labelledby="myModalLabel", aria-hidden="true")
+    div.modal-dialog
+      div.modal-content
+         div.modal-header
+           button.close(type="button", data-dismiss="modal", aria-label="Close")
+             span(aria-hidden="true") &times
+           h4.modal-title Ajustes de cuarto
+         div.modal-body
+           div.panel.panel-default
+             div.panel-heading Cuarto
+             div.panel-body {{sroom.name}}
+           form.form-inline(novalidate)
+               div.form-group
+                 label.control-label Capacidad
+                 input.form-control(type="number", ng-model='sroom.capacity', min="{{rooms[sroom.name].guests.length}}", integer)
+                 br
+                 span Camas ocupadas {{rooms[sroom.name].guests.length}}
+              div.modal-footer
+                button.btn.btn-default(type="button", data-dismiss="modal") Cancelar
+                button.btn.btn-primary(type="button", data-dismiss="modal", ng-click="update_room()") Update
+
+  div.modal.fade#checkOut(tabindex="-1", role="dialog", aria-labelledby="myModalLabel", aria-hidden="true")
+    div.modal-dialog
+      div.modal-content
+         div.modal-header
+           button.close(type="button", data-dismiss="modal", aria-label="Close")
+             span(aria-hidden="true") &times
+           h4.modal-title Check Out
+         div.modal-body
+           form.form-inline(novalidate)
+               div.form-group
+                 p Hacer el checkout de(s)
+               div.form-group(ng-repeat="g in guestToCheckout")
+                 div.row {{g.firstName}} {{g.lastName}}
+                 div.form-group
+                   label Fecha de entrado
+                   input.form-control(type='date', ng-model='g.checkIn', disabled)
+                 div.form-group
+                   label Fecha de salida
+                   div.dropdown
+                     a.dropdown-toggle#dLabel(role="button",data-toggle="dropdown", data-target="#", href="")
+                        div.input-append
+                          input.input-large.form-control(type="text", data-ng-model="g.checkOut")
+                          span.add-on
+                             i.icon-calendar
+                     ul.dropdown-menu(role='menu',aria-labeledby='')
+                        datetimepicker(data-ng-model='g.checkOut',data-datetimepicker-config="{ minView:'day',dropdownSelector: '.dropdown-toggle' }", data-on-set-time="onTimeSet(newDate, oldDate)")
+         div.modal-footer
+           button.btn.btn-default(type="button", data-dismiss="modal") Cancelar
+           button.btn.btn-primary(type="button", data-dismiss="modal", ng-click="checkOut()") Check Out
+
+  div.modal.fade#changeRoom(tabindex="-1", role="dialog", aria-labelledby="myModalLabel", aria-hidden="true")
+    div.modal-dialog
+      div.modal-content
+         div.modal-header
+           button.close(type="button", data-dismiss="modal", aria-label="Close")
+             span(aria-hidden="true") &times
+           h4.modal-title Change Room
+         div.modal-body
+           //select.form-control(ng-model="roomToMove", ng-options="k as k disable when v.guests.length === v.capacity for (k,v) in rooms")
+         div.modal-footer
+           button.btn.btn-default(type="button", data-dismiss="modal") Cancelar
+           button.btn.btn-primary(type="button", ng-click='execute_move()') Move
+
+
+  div.modal.fade#checkIn(tabindex="-1", role="dialog", aria-labelledby="myModalLabel", aria-hidden="true")
+    div.modal-dialog
+      div.modal-content
+         div.modal-header
+           button.close(type="button", data-dismiss="modal", aria-label="Close")
+             span(aria-hidden="true") &times
+           h4.modal-title Check In
+         div.modal-body
+           form(novalidate)
+             div.form-group
+               label.control-label Nombre
+               input.form-control(ng-model='new_guest.firstName')
+             div.form-group
+               label.control-label Apellido
+               input.form-control(ng-model='new_guest.lastName')
+             div.form-group
+               label.control-label Nacionalidad
+               select.form-control(ng-model='new_guest.nationality',ng-options="n for n in nationalities")
+             div.form-group
+               label.control-label Numero de documento
+               input.form-control(ng-model='new_guest.documentId')
+             div.form-group
+               label.control-label Age
+               input.form-control(type="number",integer,ng-model='new_guest.age')
+             div.form-group
+               label.control-label Estato civil
+               input.form-control(ng-model='new_guest.maritalStatus')
+             div.form-group
+               label.control-label Objectivo
+               input.form-control(ng-model='new_guest.objective')
+             div.form-group
+               label.control-label Provedencia
+               input.form-control(ng-model='new_guest.origin')
+             div.form-group
+               label.control-label Destino
+               input.form-control(ng-model='new_guest.destination')
+             div.form-group
+               label.control-label E-mail
+               input.form-control(ng-model='new_guest.email')
+             div.form-group
+               label Fecha de entrada
+               div.dropdown
+                 a.dropdown-toggle(role="button",data-toggle="dropdown", data-target="#", href="")
+                    div.input-append
+                      input.input-large.form-control(type="text", data-ng-model="new_guest.checkIn")
+                      span.add-on
+                         i.icon-calendar
+                 ul.dropdown-menu(role='menu',aria-labeledby='')
+                    datetimepicker(data-ng-model='new_guest.checkIn',data-datetimepicker-config="{ minView:'day',dropdownSelector: '.dropdown-toggle' }",data-on-set-time="onTimeSet(newDate, oldDate)")
+             div.form-group
+               label Fecha de salida
+               div.dropdown
+                 a.dropdown-toggle(role="button",data-toggle="dropdown", data-target="#", href="")
+                    div.input-append
+                      input.input-large.form-control(type="text", data-ng-model="new_guest.checkOut")
+                      span.add-on
+                         i.icon-calendar
+                 ul.dropdown-menu(role='menu',aria-labeledby='')
+                    datetimepicker(data-ng-model='new_guest.checkOut',data-datetimepicker-config="{ minView:'day',dropdownSelector: '.dropdown-toggle' }",data-on-set-time="onTimeSet(newDate, oldDate)")
+             div.form-group
+               label.control-label Habitacion
+               select.form-control(ng-model='new_guest.roomName', ng-options="roomname as roomname for (roomname,data) in rooms")
+             div.form-group
+               button.btn.btn-default(type="button", data-dismiss="modal") Cancelar
+               button.btn.btn-primary(type="button", data-dismiss="modal", ng-click="on_checkin_validate(new_guest)") Check In
+  div.container
+        div.navbar-fixed-top
+          div.container(ng-style="{backgroundColor:'#222'}")
+            div.btn-group
+              button.btn.btn-default(type="button", data-toggle="modal", data-target="#checkOut", ng-click="setCheckoutGuest()") Check Out
+              button.btn.btn-default(type="button", data-toggle="modal", data-target="#anularCheckOuts", ng-show='checkedOut.length > 0', ng-click='moveTo()') Anular Check Outs
+              div.dropdown(ng-style="{display:'inline-block'}")
+                a.dropdown-toggle#dLabel(role="button",data-toggle="dropdown", data-target="#", href="")
+                   div.input-append
+                     input.btn.btn-default(type="button", data-ng-model="migration_date",value='Migracion')
+                     span.add-on
+                        i.icon-calendar
+                ul.dropdown-menu(role='menu',aria-labeledby='')
+                   datetimepicker(data-ng-model='migration_date',data-datetimepicker-config="{ minView:'day',dropdownSelector: '.dropdown-toggle' }", data-on-set-time="onMigrationReport(newDate, oldDate)")
+              div.btn.btn-default(type="button")
+                a(href="/export_current?t=#{Date.now()}",download='beehive.csv') Exportar BeeHive
+              div.btn.btn-default(type="button")
+                a(href="/export_checkouts?t=#{Date.now()}",download='checkouts.csv') Exportar Checkouts
+
+        div.page-header
+          h1 The BeeHive
+        div(ng-repeat="(roomname,data) in rooms")
+          div.row
+           div.col-md-12
+            table.table.table-bordered(ng-style="{backgroundColor:colors[roomname]}")
+              tr
+                td {{roomname}}
+                td Occupied {{data.guests.length}} / {{data.capacity}}
+                td
+                  button.btn.btn-lg(type="button", data-toggle="modal", data-target="#checkIn", ng-class='{disabled:data.guests.length === data.capacity}', ng-click="init_check_in(roomname)") Check in
+                td
+                  button.btn.btn-lg(type="button", data-toggle="modal", data-target="#roomSettings", ng-click="get_room_info(roomname)")
+                    span.glyphicon.glyphicon-cog
+              tr
+           div.col-md-12
+              table.table.table-bordered(ng-style="{backgroundColor:colors[roomname]}")
+                thead
+                  tr
+                    th
+                    th Id
+                    th Nombres y Apellidos
+                    th Fecha de entrada
+                    th(ng-repeat="k in guest_infos") {{k}}
+                tbody
+                  tr(ng-repeat="guest in data.guests", ng-click="guest.selected = !guest.selected")
+                      td
+                        input(type='checkbox', ng-model="guest.selected")
+                      td {{guest.id }}
+                      td {{guest.firstName + ' ' + guest.lastName}}
+                      td {{guest.checkIn | date:'dd/MM/yyyy'}}
+                      td(ng-repeat="k in guest_infos") {{guest[k]}}
+                      td
+                        button.btn.btn-default(type="button", ng-click="checkOutSingleGuest(guest)") CheckOut
+                      td
+                        button.btn.btn-default(type="button", data-toggle="modal", data-target="#checkIn", ng-click='edit_guest(guest)')
+                          span.glyphicon.glyphicon-edit

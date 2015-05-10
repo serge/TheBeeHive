@@ -1,0 +1,18 @@
+extends layout
+
+block head
+    script(src='/javascripts/checkouts.js')
+
+block content
+ div(ng-app='main' ng-controller='ctr')
+  div.container
+    div.page-header
+      h1 Checked Out
+    div.row
+      table.table.table-bordered
+        thead
+          tr
+            th(ng-repeat="(k,v) in guests[0]") {{k}}
+        tbody
+          tr(ng-repeat="guest in guests")
+            td(ng-repeat="(k,v) in guest") {{v}}

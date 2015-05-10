@@ -1,0 +1,48 @@
+extends layout
+
+block content
+  div.container
+    div.row
+      table
+        tr
+          td(ng-style="{verticalAlign:'top',paddingRight:'1px',textSize:'12px'}")
+              b The Beehive Hostal
+          td
+           div Categoria: Hostel
+           div Telefono: 76118186
+           div PARTES DIARIAS
+           div= 'FECHA SUCRE ' + date.getDate() + '/' + (1 + date.getMonth()) + '/' + date.getFullYear()
+    div.row
+  table.table-bordered
+    each group,k in guests
+      tr
+        td(colspan=0)
+          b= {'checkouts':'Salientes','permanents':'Permanentes','checkins':'Entrantes'}[k] + '(' + group.length + ' personas)'
+      tr
+        td(colspan=2)
+          b Nombre y Apellidos
+        td
+          b Posaporte
+        td
+          b Edad
+        td
+          b Nacionalidad
+        td
+          b Estado civil
+        td
+          b Objectivo
+        td
+          b Precedencia
+        td
+          b Destino
+      each val in group
+        tr
+          td= val.firstName
+          td= val.lastName
+          td= val.documentId
+          td= val.age
+          td= val.nationality
+          td= val.maritalStatus
+          td= val.objective
+          td= val.origin
+          td= val.destination

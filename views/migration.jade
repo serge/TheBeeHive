@@ -1,0 +1,38 @@
+extends layout
+
+block head
+    script(src='/javascripts/migration.js')
+
+block content
+ div(ng-app='main' ng-controller='ctr')
+  div.container
+    div.page-header
+      h1 Migration
+    div.row
+      div.col-md-6
+        form
+          div.form-group
+            input.form-control(type="date", ng-model="req.date")
+            button.btn.btn-primary(type="button", ng-click="generate()") Generar
+    div.row
+      table
+        tr
+          td(ng-style="{verticalAlign:'top',paddingRight:'1px',textSize:'12px'}")
+              b The Beehive Hostal
+          td
+           div Categoria: Hostel
+           div Telefono: 76118186
+           div PARTES DIARIAS
+           div Fecha Sucre {{req.date|date:"dd/MM/yyyy"}}
+      div(ng-repeat="(k,group) in records")
+        table
+          thead
+            tr
+              th(colspan=0) {{groupNames[k]}} ({{group.length}} personas)
+            tr
+              th(ng-repeat="n in names")
+                {{n}}
+          tbody
+            tr(ng-repeat="item in group")
+              td(ng-repeat="k in fields")
+                {{item[k]}}
