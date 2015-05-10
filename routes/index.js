@@ -6,13 +6,26 @@ var express = require('express'),
     os = require('os');
 var router = express.Router();
 
+var server_data = { colors:{
+        Verde:"rgba(30,200,30,.5)",
+        Azul:"rgba(30,30,200,.5)",
+        Naranja: "rgba(255, 90, 0, .5)",
+        Matrimo: "rgba(90, 90, 90, .5)",
+        "C. Familiar": "rgba(200,30,30,.5)"
+    }};
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
+  res.render('index', server_data);
+
+
+});
+
+router.get('/calendar', function(req, res, next) {
+  res.render('calendar', server_data);
 });
 
 router.get('/checkouts', function(req, res, next) {
-  res.render('checkouts', { title: 'Express' });
+  res.render('checkouts', server_data);
 });
 
 router.get('/migration/:day/:month/:year', function(req, res, next) {

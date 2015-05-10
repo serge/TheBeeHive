@@ -1,0 +1,31 @@
+extends layout
+
+block head
+    script(src='/javascripts/calendar.js')
+
+block content
+ div.container(ng-app='main' ng-controller='ctr')
+   table.table.table-bordered
+     thead
+       tr
+         th(colspan=0,ng-style='{textAlign:"center"}')
+           div.col-md-1
+             button.btn.glyphicon.glyphicon-chevron-left(ng-click='prev_month()')
+           div.col-md-10 {{firstDay|date:'MMMM yyyy'}}
+           div.col-md-1
+             button.btn.glyphicon.glyphicon-chevron-right(ng-click='next_month()')
+       tr
+         th(ng-repeat="d in ['Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado', 'Domingo']") {{d}}
+     tbody
+       tr(ng-repeat='row in month')
+         td(ng-repeat='c in row')
+           ui.list-group
+             li.list-group-item {{c.date|date:'dd/MM/yyyy'}}
+             li.list-group-item(ng-style='{backgroundColor:colors[b]}', ng-repeat='(b,r) in c.freebeds') {{b + ': ' + r.free + '/' + r.capacity}}
+             li.list-group-item Total {{c.Total}}
+             div.btn-group(role='group', ng-show='c.checkouts.length > 0')
+               button.btn.btn-default.dropdown-toggle(data-toggle='dropdown', aria-expanded='false') Salientes&#xA0;
+                 span.caret
+               ul.dropdown-menu(role='menu')
+                 li(ng-repeat='g in c.checkouts')
+                   a(href='#',ng-style='{backgroundColor:colors[g.roomName]}') {{g.firstName + ' ' + g.lastName}}

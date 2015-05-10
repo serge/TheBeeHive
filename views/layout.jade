@@ -13,6 +13,8 @@ html
     script(src='bootstrap/dist/js/bootstrap.min.js')
     script(src='moment/moment.js')
     script(src='angular-bootstrap-datetimepicker/src/js/datetimepicker.js')
+    script.
+      angular.module('server', []).constant('colors',!{JSON.stringify(colors)});
     block head
   body
     block content

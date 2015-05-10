@@ -64,6 +64,7 @@ function parse_current(dbfile) {
         datas = _.object(fields, guest_info);
         datas.roomName = curRoom;
         datas.checkIn = parseDate(datas.checkIn, 2015);
+        datas.checkOut = parseDate(datas.checkOut, 2015);
         res.push(datas);
     });
     return res;

@@ -1,5 +1,5 @@
-angular.module('main', ['ui.bootstrap.datetimepicker'])
-.controller('ctr', function($http, $q, $scope) {
+angular.module('main', ['ui.bootstrap.datetimepicker', 'server'])
+.controller('ctr', function($http, $q, $scope, colors) {
 
     $scope.checkedOut = [];
     $scope.migration_date = new Date();
@@ -131,13 +131,7 @@ angular.module('main', ['ui.bootstrap.datetimepicker'])
 
     $scope.short_guest_infos = ['checkOut', 'roomName'];
 
-    $scope.colors = {
-        Verde:"rgba(30,200,30,.5)",
-        Azul:"rgba(30,30,200,.5)",
-        Naranja: "rgba(255, 90, 0, .5)",
-        Matrimo: "rgba(90, 90, 90, .5)",
-        "C. Familiar": "rgba(200,30,30,.5)"
-    };
+    $scope.colors = colors;
 
     $scope.nationalities = ['alemán',
                             'argentino',
