@@ -38,6 +38,9 @@ angular.module('main', ['ui.bootstrap.datetimepicker', 'server'])
         console.log("move user from " + $scope.room.name + " to " + room.name);
     };
     $scope.init_check_in = function(roomname) {
+        _.each($scope.new_guest, function(v, k) {
+            $scope.new_guest[k] = '';
+        });
         $scope.new_guest.roomName = roomname;
         $scope.new_guest.email = '@';
         var date = new Date();
