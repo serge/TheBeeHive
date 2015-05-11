@@ -212,6 +212,7 @@ block content
                     th Id
                     th Nombres y Apellidos
                     th Fecha de entrada
+                    th Fecha de salida
                     th(ng-repeat="k in guest_infos") {{k}}
                 tbody
                   tr(ng-repeat="guest in data.guests", ng-click="guest.selected = !guest.selected")
@@ -220,6 +221,7 @@ block content
                       td {{guest.id }}
                       td {{guest.firstName + ' ' + guest.lastName}}
                       td {{guest.checkIn | date:'dd/MM/yyyy'}}
+                      td {{guest.checkOut | date:'dd/MM/yyyy'}}
                       td(ng-repeat="k in guest_infos") {{guest[k]}}
                       td
                         button.btn.btn-default(type="button", ng-click="checkOutSingleGuest(guest)") CheckOut
