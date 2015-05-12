@@ -11,7 +11,7 @@ var server_data = { colors:{
         Azul:"rgba(30,30,200,.5)",
         Naranja: "rgba(255, 90, 0, .5)",
         Matrimo: "rgba(90, 90, 90, .5)",
-        "C. Familiar": "rgba(200,30,30,.5)"
+        "C. Familiar": "rgba(237, 230, 19, .5)"
     }};
 /* GET home page. */
 router.get('/', function(req, res, next) {
