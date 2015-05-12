@@ -195,25 +195,22 @@ block content
           div.row
            div.col-md-12
             table.table.table-bordered(ng-style="{backgroundColor:colors[roomname]}")
-              tr
-                td {{roomname}}
-                td Occupied {{data.guests.length}} / {{data.capacity}}
-                td
-                  button.btn.btn-lg(type="button", data-toggle="modal", data-target="#checkIn", ng-class='{disabled:data.guests.length === data.capacity}', ng-click="init_check_in(roomname)") Check in
-                td
-                  button.btn.btn-lg(type="button", data-toggle="modal", data-target="#roomSettings", ng-click="get_room_info(roomname)")
-                    span.glyphicon.glyphicon-cog
-              tr
-           div.col-md-12
-              table.table.table-bordered(ng-style="{backgroundColor:colors[roomname]}")
-                thead
-                  tr
-                    th
-                    th Id
-                    th Nombres y Apellidos
-                    th Fecha de entrada
-                    th Fecha de salida
-                    th(ng-repeat="k in guest_infos") {{k}}
+              thead
+                tr
+                  th
+                  th(colspan=3) {{roomname}} Occupied {{data.guests.length}} / {{data.capacity}}
+                  th(colspan=0)
+                    button.btn.btn-default(type="button", data-toggle="modal", data-target="#checkIn", ng-class='{disabled:data.guests.length === data.capacity}', ng-click="init_check_in(roomname)") Check in
+                  th
+                    button.btn.btn-default(type="button", data-toggle="modal", data-target="#roomSettings", ng-click="get_room_info(roomname)")
+                      span.glyphicon.glyphicon-cog
+                tr
+                  th
+                  th Id
+                  th Nombres y Apellidos
+                  th Fecha de entrada
+                  th Fecha de salida
+                  th(ng-repeat="k in guest_infos") {{k}}
                 tbody
                   tr(ng-repeat="guest in data.guests", ng-click="guest.selected = !guest.selected")
                       td
