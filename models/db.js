@@ -332,8 +332,6 @@ function uncheckout_guest(id) {
 };
 
 function writeData(fpath, data) {
-    if(!_.isEmpty(data))
-        writeHeader(fpath,data[0]);
     _.each(data, function (guest) {
         var row = [guest.id];
         row.push(guest.firstName + ' ' + guest.lastName);
@@ -351,9 +349,15 @@ function writeData(fpath, data) {
 }
 
 function export_checkins(fpath) {
+    var first = true;
     return get_all_guests()
         .then(function (guests) {
             _.each(guests, function(data, k) {
+                if(first && !_.isEmpty(data.guests)) {
+                    first = false;
+                    writeHeader(fpath,data.guests[0]);
+                }
+                fs.appendFileSync(fpath, k + _.rest(_.map(data.guests[0], function(v) { return '';})).join(',') + '\n');
                 writeData(fpath, data.guests);
             });
         });
@@ -377,6 +381,8 @@ function writeHeader(fpath, info) {
 function export_checkouts(fpath) {
     return get_all_checkouts()
         .then(function (guests) {
+            if(!_.isEmpty(guests))
+                writeHeader(fpath,guests[0]);
             writeData(fpath, guests);
         });
 };
