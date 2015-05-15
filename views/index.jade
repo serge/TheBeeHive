@@ -30,9 +30,8 @@ block content
              tbody
                 tr(ng-repeat="guest in checkedOut", ng-click="guest.selected = !guest.selected")
                   td
-                    button.btn.btn-default(ng-click="uncheckout(guest)")
-                      span.glyphicon.glyphicon-ok-sign
-                  td {{guest.id}
+                    button.btn.btn-default(ng-click="uncheckout(guest)") Anular
+                  td {{guest.id}}
                   td {{guest.firstName}} {{guest.lastName}}
                   td(ng-repeat="k in short_guest_infos") {{guest[k]}}
          div.modal-footer
