@@ -69,6 +69,7 @@ guest.post('/uncheckout/:id', function(req, res, next) {
     db.uncheckout_guest(req.params.id).then(function(result) {
         res.json({ result: result});
     }, function (error) {
+        res.status(403);
         res.json({
             result:'error',
             msg:error

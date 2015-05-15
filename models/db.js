@@ -179,17 +179,7 @@ function can_add_guest_in_room(roomname) {
 function add_guest(guest_info) {
     return can_add_guest_in_room(guest_info.roomName)
         .then(function() {
-            return Guest.create(guest_info)
-                .then(function(u) {
-                    console.log("added");
-                    return u;
-                },function(u) {
-                    console.log("ERROR");
-                    console.log(u);
-                    return u;
-                });
-        }, function(err) {
-            console.error(err);
+            return Guest.create(guest_info);
         });
 };
 
