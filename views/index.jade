@@ -12,6 +12,14 @@ block content
     span.sr-only Error:
     div {{error_msg}}
   div.container
+  div.modal.fade#YesNoModal(tabindex="-1", role="dialog", aria-labelledby="myModalLabel", aria-hidden="true")
+    div.modal-dialog
+      div.modal-content
+         div.modal-body
+           div {{confirm.msg}}
+           button.btn.btn-primary(type="button", data-dismiss="modal", ng-click="confirm.onok()") Sí
+           button.btn.btn-primary(type="button", data-dismiss="modal") No
+
   div.modal.fade#anularCheckOuts(tabindex="-1", role="dialog", aria-labelledby="myModalLabel", aria-hidden="true")
     div.modal-dialog
       div.modal-content
@@ -226,3 +234,6 @@ block content
                       td
                         button.btn.btn-default(type="button", data-toggle="modal", data-target="#checkIn", ng-click='edit_guest(guest)')
                           span.glyphicon.glyphicon-edit
+                      td
+                        button.btn.btn-default(type="button", data-toggle="modal", data-target="#YesNoModal", ng-click="erase_guest(guest)")
+                          span.glyphicon.glyphicon-trash

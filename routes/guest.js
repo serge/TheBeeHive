@@ -45,6 +45,19 @@ guest.delete('/:id/:date', function(req, res, next) {
         });
 });
 
+guest.delete('/:id', function(req, res, next) {
+    var date = new Date(req.params.date);
+    db.erase_guest(req.params.id)
+        .then(function(guest) {
+            res.json({
+                status: 'OK',
+                guest: guest
+            });
+        }, function(error) {
+            res.json({result: error});
+        });
+});
+
 guests.get('/', function(req, res, next) {
     db.get_all_guests().then(function(guests) {
         res.json({ result: {rooms: guests}});

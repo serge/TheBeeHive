@@ -57,6 +57,19 @@ angular.module('main', ['ui.bootstrap.datetimepicker', 'server'])
         $scope.on_checkin_validate = editGuest;
     };
 
+    $scope.erase_guest = function(guest) {
+        $scope.confirm = {
+            msg:"Quieres borar huesped?",
+            onok: function() {
+                $http.delete('/guest/' + guest.id)
+                    .success(function(res) {
+                        console.log(res);
+                        $scope.update();
+                    });
+            }
+        };
+    };
+
     function makeCheckIn(new_guest) {
         console.log(new_guest);
         $http.post('/guest', new_guest).success(function(data) {

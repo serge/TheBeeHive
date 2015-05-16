@@ -377,6 +377,10 @@ function export_checkouts(fpath) {
         });
 };
 
+function erase_guest(guest_id) {
+    return Guest.destroy({where: {id:guest_id}});
+};
+
 exports.add_guest = add_guest;
 exports.get_all_guests = get_all_guests;
 exports.get_all_checkouts = get_all_checkouts;
@@ -388,3 +392,4 @@ exports.update_guest = update_guest;
 exports.update_room = update_room;
 exports.export_checkins = export_checkins;
 exports.export_checkouts = export_checkouts;
+exports.erase_guest = erase_guest;
