@@ -112,37 +112,37 @@ block content
          div.modal-body
            form(novalidate)
              div.form-group
-               label.control-label Nombre
+               label.control-label Nombre / First Name
                input.form-control(ng-model='new_guest.firstName')
              div.form-group
-               label.control-label Apellido
+               label.control-label Apellido / Last Name
                input.form-control(ng-model='new_guest.lastName')
              div.form-group
-               label.control-label Nacionalidad
+               label.control-label Nacionalidad / Nationality
                select.form-control(ng-model='new_guest.nationality',ng-options="n for n in nationalities")
              div.form-group
-               label.control-label Numero de documento
+               label.control-label Numero de documento / Document ID
                input.form-control(ng-model='new_guest.documentId')
              div.form-group
-               label.control-label Age
+               label.control-label Edad / Age
                input.form-control(type="number",integer,ng-model='new_guest.age')
              div.form-group
-               label.control-label Estato civil
+               label.control-label Estato civil / Marital Status
                input.form-control(ng-model='new_guest.maritalStatus')
              div.form-group
-               label.control-label Objectivo
+               label.control-label Objectivo / Objective
                input.form-control(ng-model='new_guest.objective')
              div.form-group
-               label.control-label Provedencia
+               label.control-label Provedencia / Origin
                input.form-control(ng-model='new_guest.origin')
              div.form-group
-               label.control-label Destino
+               label.control-label Destino / Destination
                input.form-control(ng-model='new_guest.destination')
              div.form-group
                label.control-label E-mail
                input.form-control(ng-model='new_guest.email')
              div.form-group
-               label Fecha de entrada
+               label Fecha de entrada / Check In Date
                div.dropdown
                  a.dropdown-toggle(role="button",data-toggle="dropdown", data-target="#", href="")
                     div.input-append
@@ -152,7 +152,7 @@ block content
                  ul.dropdown-menu(role='menu',aria-labeledby='')
                     datetimepicker(data-ng-model='new_guest.checkIn',data-datetimepicker-config="{ minView:'day',dropdownSelector: '.dropdown-toggle' }",data-on-set-time="onTimeSet(newDate, oldDate)")
              div.form-group
-               label Fecha de salida
+               label Fecha de salida / Check Out Date
                div.dropdown
                  a.dropdown-toggle(role="button",data-toggle="dropdown", data-target="#", href="")
                     div.input-append
@@ -162,7 +162,7 @@ block content
                  ul.dropdown-menu(role='menu',aria-labeledby='')
                     datetimepicker(data-ng-model='new_guest.checkOut',data-datetimepicker-config="{ minView:'day',dropdownSelector: '.dropdown-toggle' }",data-on-set-time="onTimeSet(newDate, oldDate)")
              div.form-group
-               label.control-label Habitacion
+               label.control-label Habitacion / Room
                select.form-control(ng-model='new_guest.roomName', ng-options="roomname as roomname for (roomname,data) in rooms")
              div.form-group
                button.btn.btn-default(type="button", data-dismiss="modal") Cancelar
