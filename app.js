@@ -8,7 +8,7 @@ var fs = require('fs');
 
 var routes = require('./routes/index');
 var guest_routers = require('./routes/guest');
-var room = require('./routes/room');
+var rroom = require('./routes/room');
 
 var app = express();
 
@@ -31,8 +31,15 @@ app.use(express.static(path.join(__dirname, 'bower_components')));
 app.use('/', routes);
 app.use('/guest', guest_routers.guest);
 app.use('/guests', guest_routers.guests);
-app.use('/room', room);
+app.use('/rooms', rroom.rooms);
+app.use('/room', rroom.room);
 // catch 404 and forward to error handler
+app.get('/partials/:name', function (req, res) {
+    var name = req.params.name;
+    console.log(name);
+    res.render('partials/' + name);
+});
+
 app.use(function(req, res, next) {
   var err = new Error('Not Found');
   err.status = 404;

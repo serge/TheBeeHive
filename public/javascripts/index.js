@@ -1,4 +1,4 @@
-angular.module('main', ['ui.bootstrap.datetimepicker', 'server'])
+angular.module('main', ['ui.bootstrap.datetimepicker', 'server', 'utils'])
 .controller('ctr', function($http, $q, $scope, colors) {
 
     $scope.checkedOut = [];

@@ -1,6 +1,7 @@
 var db = require('../models/db.js');
 var express = require('express');
-var room = express.Router();
+var room = express.Router(),
+    rooms = express.Router();
 
 room.get('/:roomname', function(req, res, next) {
     db.get_room(req.params.roomname)
@@ -27,4 +28,18 @@ room.get('/:roomname', function(req, res, next) {
         });
 });
 
-module.exports = room;
+rooms.get('/', function(req, res, next) {
+    db.get_rooms()
+    .then(function(rooms) {
+        res.json({
+            status: 'OK',
+            rooms: rooms
+        });
+    }, function(error) {
+        res.status(403);
+        res.json({status: "Error", msg: error});
+    });
+});
+
+module.exports.room = room;
+module.exports.rooms = rooms;

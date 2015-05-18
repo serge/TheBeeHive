@@ -150,6 +150,13 @@ function get_room(roomname) {
     });
 }
 
+function get_rooms() {
+    return Room.findAll()
+        .then(function(data) {
+            return _.pluck(data, 'dataValues');
+    });
+}
+
 function update_room(room) {
     return Room.insertOrUpdate(room)
         .then(function(a) {
@@ -387,6 +394,7 @@ exports.get_all_checkouts = get_all_checkouts;
 exports.delete_guest = delete_guest;
 exports.get_daily_status = get_daily_status;
 exports.get_room = get_room;
+exports.get_rooms = get_rooms;
 exports.uncheckout_guest = uncheckout_guest;
 exports.update_guest = update_guest;
 exports.update_room = update_room;

@@ -1,0 +1,8 @@
+div.dropdown
+  a.dropdown-toggle(role="button",data-toggle="dropdown", data-target="#", href="")
+    div.input-append
+      input.input-large.form-control(type="text", data-ng-model="var")
+      span.add-on
+        i.icon-calendar
+  ul.dropdown-menu(role='menu',aria-labeledby='')
+    datetimepicker(data-ng-model='var',data-datetimepicker-config="{ minView:'day',dropdownSelector: '.dropdown-toggle' }",data-on-set-time="onTimeSet(newDate, oldDate)")
