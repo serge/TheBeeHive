@@ -60,9 +60,13 @@ angular.module('main', ['server'])
     $scope.update = function() {
         $http.get('/guests').success(function(data) {
             $scope.guests = _.flatten(_.pluck(_.toArray(data.result.rooms), 'guests'));
-            var freebeds = data.result.rooms;
+            var rooms = data.result.rooms;
             $scope.month = gendays(firstDay, $scope.guests,
-                                   freebeds);
+                                   rooms);
+            $scope.colors = {};
+            _.each(rooms, function(data, k) {
+                $scope.colors[k] = data.color;
+            });
         });
     };
     $scope.update();
@@ -77,5 +81,4 @@ angular.module('main', ['server'])
         firstDay.setMonth(firstDay.getMonth() + 1);
         $scope.update();
     };
-    $scope.colors = colors;
 });
