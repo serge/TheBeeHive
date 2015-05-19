@@ -4,15 +4,9 @@ var express = require('express'),
     fs = require('fs'),
     _ = require('underscore'),
     os = require('os');
-var router = express.Router();
+var router = express.Router(),
+    server_data = require('../models/server_data');
 
-var server_data = { colors:{
-        Verde:"rgba(30,200,30,.5)",
-        Azul:"rgba(30,30,200,.5)",
-        Naranja: "rgba(255, 90, 0, .5)",
-        Matrimo: "rgba(90, 90, 90, .5)",
-        "C. Familiar": "rgba(237, 230, 19, .5)"
-    }};
 /* GET home page. */
 router.get('/', function(req, res, next) {
   res.render('index', server_data);

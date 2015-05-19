@@ -1,0 +1,55 @@
+extends layout
+
+block head
+    script(src='/javascripts/utils.js')
+    script(src='/javascripts/rooms.js')
+
+block content
+ div(ng-app='main' ng-controller='ctr')
+  div.modal.fade#AddRoom(tabindex="-1", role="dialog", aria-labelledby="addroom", aria-hidden="true")
+    div.modal-dialog
+      div.modal-content
+         div.modal-header
+           button.close(type="button", data-dismiss="modal", aria-label="Close")
+             span(aria-hidden="true") &times
+           h4.modal-title Añadir Cuarto
+         div.modal-body
+           form(novalidate)
+              div.form-group
+                label.control-label Nombre
+                input.form-control(type="text", ng-model='new_room.name')
+              div.form-group
+                label.control-label Capacidad
+                input.form-control(type="number", ng-model='new_room.capacity', min="0", integer)
+              div.form-group
+                label.control-label Precio
+                input.form-control(type="number", ng-model='new_room.price', min='0', integer)
+         div.modal-footer
+           button.btn.btn-default(type="button", data-dismiss="modal") Cancelar
+           button.btn.btn-primary(type="button", data-dismiss="modal", ng-click="on_room_dlg_ok(new_room)") {{ok_btn_name}}
+
+  div.container
+    div.row
+      button.btn.btn-default(data-toggle="modal", data-target="#AddRoom",type="button", ng-click="open_create_dlg()")
+        span.glyphicon.glyphicon-plus
+  div.container
+    div.row
+      table.table.table-bordered
+        thead
+          tr
+            th Nombre
+            th Numero de camas
+            th Precio
+            th
+            th
+        tbody
+          tr(ng-repeat='room in rooms', ng-style='{backgroundColor:room.color}')
+            td {{room.name}}
+            td {{room.capacity}}
+            td {{room.price}}
+            td
+               button.btn.btn-default(data-toggle="modal", data-target="#AddRoom",type="button", ng-click="open_edit_dlg(room)")
+                 span.glyphicon.glyphicon-cog
+            td
+               button.btn.btn-default(ng-click="delete_room(room.name)")
+                 span.glyphicon.glyphicon-trash

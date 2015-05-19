@@ -93,25 +93,26 @@ var Room = sequelize.define('room', {
     },
     price: {
         type: Sequelize.INTEGER
+    },
+    color: {
+        type: Sequelize.STRING
     }
 });
 
 Guest.belongsTo(Room);
 var soptions  = {force:true};
+var roominfo = [{name:"Verde", capacity:10, hostelName: "The BeeHive", price:55, color: "rgba(30,200,30,.5)"},
+                {name:"Azul", capacity:8, hostelName: "The BeeHive", price:55, color: "rgba(30,30,200,.5)"},
+                {name:"Naranja", capacity:6, hostelName: "The BeeHive", price:55, color: "rgba(255, 90, 0, .5)"},
+                {name:"C. Familiar", capacity:4, hostelName: "The BeeHive", price:55, color: "rgba(90, 90, 90, .5)"},
+                {name:"Matrimo", capacity:2, hostelName: "The BeeHive", price:165, color: "rgba(237, 230, 19, .5)"}];
 
 Room.sync(soptions).then(function() {
     return Guest.sync(soptions);
 }).then(function() {
     return DeletedGuest.sync(soptions);
 }).then(function () {
-    return Q.all(_.map([{name:"Verde", capacity:10, hostelName: "The BeeHive", price:55},
-                        {name:"Azul", capacity:8, hostelName: "The BeeHive", price:55},
-                        {name:"Naranja", capacity:6, hostelName: "The BeeHive", price:55},
-                        {name:"C. Familiar", capacity:4, hostelName: "The BeeHive", price:55},
-                        {name:"Matrimo", capacity:2, hostelName: "The BeeHive", price:165}],
-                       function(room) {
-                           return Room.create(room);
-                       }));
+    return Q.all(_.map(roominfo, create_room));
 }).then(function () {
     var dbfile = __dirname + '/../Check Outs.csv';
     return Q.all(_.map(imp.parse_checkouts(dbfile), function(guest) {
@@ -157,6 +158,10 @@ function get_rooms() {
     });
 }
 
+function create_room(room) {
+    return Room.create(room);
+}
+
 function update_room(room) {
     return Room.insertOrUpdate(room)
         .then(function(a) {
@@ -164,6 +169,18 @@ function update_room(room) {
             }, function(a) {
             console.log('error', a);
             });
+}
+
+function delete_room(roomname) {
+    return Room.findOne({where:{name:roomname}})
+        .then(function(data) {
+            var room = data.dataValues;
+            return guests_per_room(room.name);
+        }).then(function(guests) {
+            if(!_.isEmpty(guests))
+                return Q.reject("Room is not empty");
+            return Room.destroy({where: {name:roomname}});
+        });
 }
 
 function can_add_guest_in_room(roomname) {
@@ -231,6 +248,7 @@ function get_all_guests() {
                 room = room.dataValues;
                 grouped_guests[room.name] = {
                     capacity :room.capacity,
+                    color :room.color,
                     guests: _.has(grouped_guests, room.name)? grouped_guests[room.name]: []};
             });
             return grouped_guests;
@@ -397,7 +415,9 @@ exports.get_room = get_room;
 exports.get_rooms = get_rooms;
 exports.uncheckout_guest = uncheckout_guest;
 exports.update_guest = update_guest;
+exports.create_room = create_room;
 exports.update_room = update_room;
+exports.delete_room = delete_room;
 exports.export_checkins = export_checkins;
 exports.export_checkouts = export_checkouts;
 exports.erase_guest = erase_guest;

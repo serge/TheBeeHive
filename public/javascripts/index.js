@@ -1,5 +1,5 @@
 angular.module('main', ['ui.bootstrap.datetimepicker', 'server', 'utils'])
-.controller('ctr', function($http, $q, $scope, colors) {
+.controller('ctr', function($http, $q, $scope) {
 
     $scope.checkedOut = [];
     $scope.migration_date = new Date();
@@ -22,6 +22,13 @@ angular.module('main', ['ui.bootstrap.datetimepicker', 'server', 'utils'])
         newDate.setHours(oldDate.getHours());
         newDate.setMinutes(oldDate.getMinutes());
         newDate.setSeconds(oldDate.getSeconds());
+    };
+
+    $scope.update_room = function(sroom) {
+        $http.put('/room', sroom)
+            .success(function(data) {
+                $scope.update();
+            });
     };
 
     $scope.update = function() {
@@ -146,8 +153,6 @@ angular.module('main', ['ui.bootstrap.datetimepicker', 'server', 'utils'])
     $scope.guest_infos = ['documentId', 'origin', 'destination', 'nationality'];
 
     $scope.short_guest_infos = ['checkOut', 'roomName'];
-
-    $scope.colors = colors;
 
     $scope.nationalities = ['alemán',
                             'argentino',
