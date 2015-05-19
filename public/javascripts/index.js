@@ -18,11 +18,6 @@ angular.module('main', ['ui.bootstrap.datetimepicker', 'server', 'utils'])
             year = date.getFullYear();
         window.open('migration/' + day + '/' + month + '/' + year,'_blank');
     };
-    $scope.onTimeSet = function (newDate, oldDate) {
-        newDate.setHours(oldDate.getHours());
-        newDate.setMinutes(oldDate.getMinutes());
-        newDate.setSeconds(oldDate.getSeconds());
-    };
 
     $scope.update_room = function(sroom) {
         $http.put('/room', sroom)

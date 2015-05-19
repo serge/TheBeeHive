@@ -162,13 +162,9 @@ block content
               button.btn.btn-default(type="button", data-toggle="modal", data-target="#checkOut", ng-click="setCheckoutGuest()") Check Out
               button.btn.btn-default(type="button", data-toggle="modal", data-target="#anularCheckOuts", ng-show='checkedOut.length > 0', ng-click='moveTo()') Anular Check Outs
               div.dropdown(ng-style="{display:'inline-block'}")
-                a.dropdown-toggle#dLabel(role="button",data-toggle="dropdown", data-target="#", href="")
-                   div.input-append
-                     input.btn.btn-default(type="button", data-ng-model="migration_date",value='Migracion')
-                     span.add-on
-                        i.icon-calendar
-                ul.dropdown-menu(role='menu',aria-labeledby='')
-                   datetimepicker(data-ng-model='migration_date',data-datetimepicker-config="{ minView:'day',dropdownSelector: '.dropdown-toggle' }", data-on-set-time="onMigrationReport(newDate, oldDate)")
+                button.btn.dropdown-toggle(id='migration_btn', data-toggle="dropdown", data-target="#") Migracion
+                ul.dropdown-menu(role='menu',aria-labeledby='migration_btn')
+                   datetimepicker(data-ng-model='migration_date',data-datetimepicker-config="{ minView:'day',dropdownSelector: '#migration_btn' }", data-on-set-time="onMigrationReport(newDate, oldDate)")
               div.btn.btn-default(type="button")
                 a(href="/export_current?t=#{Date.now()}",download='beehive.csv') Exportar BeeHive
               div.btn.btn-default(type="button")

@@ -1,8 +1,8 @@
 div.dropdown
-  a.dropdown-toggle(role="button",data-toggle="dropdown", data-target="#", href="")
+  a.dropdown-toggle(role="button", id="{{id}}", data-toggle="dropdown", data-target="#", href="")
     div.input-append
-      input.input-large.form-control(type="text", data-ng-model="var")
+      div.form-control(type="text", data-ng-model="var") {{var | date:'dd/MM/yyyy'}}
       span.add-on
         i.icon-calendar
-  ul.dropdown-menu(role='menu',aria-labeledby='')
-    datetimepicker(data-ng-model='var',data-datetimepicker-config="{ minView:'day',dropdownSelector: '.dropdown-toggle' }",data-on-set-time="onTimeSet(newDate, oldDate)")
+  ul.dropdown-menu(role='menu',aria-labeledby='{{id}}',ng-style="{position:'absolute',top:'-150px'}")
+    datetimepicker(data-ng-model='var',data-datetimepicker-config="{minView:'day'}",data-on-set-time="onTimeSet(newDate, oldDate)")
