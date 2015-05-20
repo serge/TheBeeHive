@@ -205,7 +205,12 @@ block content
                       td {{guest.id }}
                       td {{guest.firstName + ' ' + guest.lastName}}
                       td {{guest.checkIn | date:'dd/MM/yyyy'}}
-                      td {{guest.checkOut | date:'dd/MM/yyyy'}}
+                      td.dropdown
+                        div.dropdown-toggle#fechasalida(role="button", data-toggle="dropdown", data-target="#") {{guest.checkOut | date:'dd/MM/yyyy'}}
+                        div.dropdown-menu(role="menu",aria-labeledby='fechasalida',ng-style="{position:'absolute', top:'-150px', left:'-150px'}")
+                          datetimepicker(data-ng-model='guest.checkOut', data-datetimepicker-config="{ minView:'day'}")
+                          div(ng-style="{textAlign:'center'}")
+                            button.btn(ng-click="advance_check_out(guest)") Confirmar
                       td(ng-repeat="k in guest_infos") {{guest[k]}}
                       td
                         button.btn.btn-default(type="button", ng-click="checkOutSingleGuest(guest)") CheckOut

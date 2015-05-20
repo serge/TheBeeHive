@@ -85,6 +85,11 @@ angular.module('main', ['ui.bootstrap.datetimepicker', 'server', 'utils'])
         });
     };
 
+    $scope.advance_check_out = function (guest) {
+        var edited_guest = _.clone(guest);
+        editGuest(edited_guest);
+    };
+
     function editGuest(new_guest) {
         var id = new_guest.id;
         delete new_guest.id;
