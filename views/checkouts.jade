@@ -67,6 +67,27 @@ block content
   div.container
     div.page-header
       h1 Checked Out
+    div.row(ng-style='{textAlign:"center"}')
+      p.btn-group(data-toggle="buttons")
+        label.btn.btn-default.active(ng-click='show("day")')
+          input(type='radio')
+          span ulitmo dia
+        label.btn.btn-default(ng-click='show("week")')
+          input(type='radio')
+          span ulitma samana
+        label.btn.btn-default(ng-click='show("month")')
+          input(type='radio')
+          span ulitmo mez
+    div.row(ng-style='{textAlign:"center"}')
+        label.control-label Desde
+        datepicker(ng-model="from",ng-style='{marginLeft:"5px",marginRight:"5px",display:"inline-block", width:"auto"}')
+        label.control-label Hasta
+        datepicker(ng-style='{marginLeft:"5px",marginRight:"5px",display:"inline-block", width:"auto"}',ng-model="until")
+        button.btn.btn-default(ng-click='show_range(from, until)') Mostrar
+    div.row(ng-style='{textAlign:"center"}')
+        label.control-label Nombre
+        input.form-control(ng-style='{marginLeft:"5px",marginRight:"5px",display:"inline-block", width:"auto"}',ng-model="name")
+        button.btn.btn-default(ng-click='show_name(name)') Buscar
     div.row
       table.table.table-bordered
         thead

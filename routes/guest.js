@@ -1,7 +1,8 @@
 var db = require('../models/db.js');
 var express = require('express');
 var guest = express.Router(),
-    guests = express.Router();
+    guests = express.Router(),
+    _ = require('underscore');
 
 guest.post('/', function(req, res, next) {
     var guest_info = req.body;
@@ -64,10 +65,35 @@ guests.get('/', function(req, res, next) {
     }, function () { res.json({result:'error'});});
 });
 
-guests.get('/checkouts', function(req, res, next) {
-    db.get_all_checkouts().then(function(guests) {
-        res.json({ result: {guests:guests}});
-    }, function () { res.json({result:'error'});});
+guests.get('/checkouts/', function(req, res, next) {
+    var ops = {};
+    if(_.has(req.query, 't')) {
+        ops.period = req.query.t;
+    } else if(_.has(req.query, 'from')) {
+        ops.from = req.query.from;
+        if(_.has(req.query, 'until'))
+            ops.until = req.query.until;
+        else
+            ops.until = new Date();
+    } else if(_.has(req.query, 'name')) {
+        ops.name = req.query.name;
+    } else {
+        ops.period = 'day';
+    }
+
+    db.get_all_checkouts(ops)
+        .then(function(guests) {
+            res.json({
+                status:'OK',
+                guests:guests
+            });
+        }, function (error) {
+            res.status(403);
+            res.json({
+                status:'error',
+                msg: error
+            });
+    });
 });
 
 guests.get('/migration/:day/:month/:year', function(req, res, next) {

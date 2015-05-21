@@ -256,21 +256,64 @@ function get_all_guests() {
     });
 }
 
-function get_all_checkouts() {
-    return DeletedGuest.findAll()
-        .then(function(data) {
-            return _.pluck(data, 'dataValues');
+function bring_to_midnight(date) {
+    date.setMinutes(0);
+    date.setSeconds(0);
+    date.setHours(0);
+    return date;
+}
+
+
+function get_previous_day(date, days) {
+    var beforeday = new Date(date);
+    beforeday.setDate(date.getDate() - days);
+    bring_to_midnight(beforeday);
+    return beforeday;
+}
+
+function get_all_checkouts(options) {
+    var ops = options || {},
+        date, untildate,
+        days = 1;
+
+    if(_.has(ops, 'period')) {
+        days = {day:1, week:7, month:30}[ops.period];
+        date = get_previous_day(new Date(), days);
+        untildate = new Date();
+    } else if(_.has(ops, 'from')) {
+        date = new Date(ops.from);
+        bring_to_midnight(date);
+        untildate = new Date(ops.until || new Date());
+    } else if(_.has(ops, 'name')) {
+        return DeletedGuest.findAll()
+            .then(function(data) {
+                var guests = _.pluck(data, 'dataValues'), res = [];
+                _.each(guests, function(guest) {
+                    var re = RegExp(ops.name.toLowerCase()),
+                        fullname = guest.firstName.toLowerCase()
+                            + guest.lastName.toLowerCase();
+                    if(fullname.search(re) !== -1)
+                        res.push(guest);
+                });
+                return res;
         }, function(data) {
             console.log("error", data);
         });
+    }
+
+    return DeletedGuest.findAll({
+        where:["checkOut > ? and checkOut < ?", date, untildate]
+    }).then(function(data) {
+        return _.pluck(data, 'dataValues');
+    }, function(data) {
+        console.log("error", data);
+    });
 };
 
 function get_checkouts(date) {
     var daybefore = new Date(date),
         dayafter;
-    daybefore.setMinutes(0);
-    daybefore.setSeconds(0);
-    daybefore.setHours(0);
+    bring_to_midnight(daybefore);
     dayafter = new Date(daybefore);
     dayafter.setDate(daybefore.getDate() + 1);
     return DeletedGuest.findAll(
@@ -282,9 +325,7 @@ function get_checkouts(date) {
 function get_checkins(date, db) {
     var daybefore = new Date(date),
         dayafter;
-    daybefore.setMinutes(0);
-    daybefore.setSeconds(0);
-    daybefore.setHours(0);
+    bring_to_midnight(daybefore);
     dayafter = new Date(daybefore);
     dayafter.setDate(daybefore.getDate() + 1);
     return db.findAll(
