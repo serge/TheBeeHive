@@ -205,18 +205,18 @@ block content
                       td {{guest.id }}
                       td {{guest.firstName + ' ' + guest.lastName}}
                       td {{guest.checkIn | date:'dd/MM/yyyy'}}
-                      td.dropdown
+                      td.dropdown(data-toggle='tooltip',data-placement='top', title='Pulsa para Cambiar checkout')
                         div.dropdown-toggle#fechasalida(role="button", data-toggle="dropdown", data-target="#") {{guest.checkOut | date:'dd/MM/yyyy'}}
                         div.dropdown-menu(role="menu",aria-labeledby='fechasalida',ng-style="{position:'absolute', top:'-150px', left:'-150px'}")
                           datetimepicker(data-ng-model='guest.checkOut', data-datetimepicker-config="{ minView:'day'}")
                           div(ng-style="{textAlign:'center'}")
                             button.btn(ng-click="advance_check_out(guest)") Confirmar
                       td(ng-repeat="k in guest_infos") {{guest[k]}}
-                      td
+                      td(data-toggle='tooltip', data-placement='top', title='Pulsa para hacer checkout de hoy')
                         button.btn.btn-default(type="button", ng-click="checkOutSingleGuest(guest)") CheckOut
-                      td
+                      td(data-toggle='tooltip', data-placement='top', title='Pulsa para editar informacion del huesped')
                         button.btn.btn-default(type="button", data-toggle="modal", data-target="#checkIn", ng-click='edit_guest(guest)')
                           span.glyphicon.glyphicon-edit
-                      td
+                      td(data-toggle='tooltip', data-placement='top', title='Pulsa para borar al huesped')
                         button.btn.btn-default(type="button", data-toggle="modal", data-target="#YesNoModal", ng-click="erase_guest(guest)")
                           span.glyphicon.glyphicon-trash
