@@ -47,8 +47,12 @@ function export_data(fn, res, filename) {
                 console.log(err);
             }
             else {
-                fs.unlinkSync(fpath);
-                fs.rmdirSync(dirpath);
+                try {
+                    fs.unlinkSync(fpath);
+                    fs.rmdirSync(dirpath);
+                } catch(e) {
+                    console.log(e);
+                }
             }
         });
     });
