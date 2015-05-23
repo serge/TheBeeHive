@@ -298,15 +298,21 @@ function get_all_checkouts(options) {
                 return res;
         }, function(data) {
             console.log("error", data);
+            return data;
         });
     }
 
-    return DeletedGuest.findAll({
-        where:["checkOut > ? and checkOut < ?", date, untildate]
-    }).then(function(data) {
-        return _.pluck(data, 'dataValues');
-    }, function(data) {
-        console.log("error", data);
+
+    if(_.isDate(date) ||  _.isDate(untildate))
+        query = {
+            where:["checkOut > ? and checkOut < ?", date, untildate]
+        };
+    return DeletedGuest.findAll(query)
+        .then(function(data) {
+            return _.pluck(data, 'dataValues');
+        }, function(data) {
+            console.log("error", data);
+            return data;
     });
 };
 
