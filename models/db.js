@@ -5,10 +5,11 @@ var Sequelize = require('sequelize'),
     path = require('path'),
     fs = require('fs');
 
-var dbname = './beehive.sqlite',
+var dbname = 'beehive.sqlite',
+    dbfname = './' + dbname,
     sequelize = new Sequelize('', null, null, {
         dialect: 'sqlite',
-        storage: dbname
+        storage: dbfname
     });
 
 var guest_fields = {
@@ -103,7 +104,7 @@ var Room = sequelize.define('room', {
 Guest.belongsTo(Room);
 var soptions  = {force:false};
 
-if(!fs.existsSync(dbname)) {
+if(!fs.existsSync(dbfname)) {
     soptions.force = true;
 }
 
@@ -146,15 +147,14 @@ Room.sync(soptions).then(function() {
 }).then(function(res) {
     var roomName = roominfo[0].name;
     if(!_.isEmpty(res)) {
-        console.log(res.length);
+        console.log("Total guests " + res.length);
         console.log(res[0].dataValues);
         roomName = res[0].dataValues.roomName;
     }
     return Room.findAll({where: {name: roomName}});
 }).then(function(res) {
     console.log(res[0].dataValues);
-//    get_all_guests('The BeeHive');
-//   imp.test(__dirname + '/../guests.csv');
+    backup();
 });
 
 function get_room(roomname) {
@@ -477,6 +477,41 @@ function export_checkouts(fpath) {
 function erase_guest(guest_id) {
     return Guest.destroy({where: {id:guest_id}});
 };
+
+function pad(s) {
+    if(('' + s).length === 1)
+        return '0' + s;
+    return s;
+};
+
+function backup() {
+    var date = new Date(),
+        inStream = fs.createReadStream(dbfname),
+        backupname = dbfname + '.'
+            + date.getFullYear() + '_'
+            + pad(date.getMonth()) + '_'
+            + pad(date.getDate()) + '_'
+            + pad(date.getHours()) + '_'
+            + pad(date.getMinutes()) + '_'
+            + pad(date.getSeconds()),
+        outStream = fs.createWriteStream(backupname);
+    inStream.pipe(outStream);
+    console.log('Backed up as ' + backupname);
+    var re = RegExp(dbname + '.[0-9]{4}');
+    var todelete = _.filter(fs.readdirSync('.'), function(fname) {
+        return fname.match(re) && backupname.search(fname) === -1;
+    });
+    _.each(todelete, function(fname) {
+        try {
+            fs.unlinkSync(fname);
+        } catch (e) {
+            console.log(e);
+        }
+    });
+
+}
+
+setInterval(backup, 1000 * 60 * 60 * 24);
 
 exports.add_guest = add_guest;
 exports.get_all_guests = get_all_guests;
