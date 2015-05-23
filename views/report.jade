@@ -1,11 +1,20 @@
-extends layout
+doctype html
+html
+ head
+   meta(charset="utf-8")
+   meta(http-equiv="X-UA-Compatible", content="IE=edge")
+   meta(name="viewport",content="width=device-width, initial-scale=1")
+   link(rel='stylesheet', href='/stylesheets/style.css')
+   link(rel='stylesheet', href='/bootstrap/dist/css/bootstrap.min.css')
+   script(src='/jquery/dist/jquery.min.js')
+   script(src='/bootstrap/dist/js/bootstrap.min.js')
 
-block content
+ body
   div.container
     div.row
       table
         tr
-          td(ng-style="{verticalAlign:'top',paddingRight:'1px',textSize:'12px'}")
+          td(style="vertical-align:top;padding-right:5px;text-size:12px;")
               b The Beehive Hostal
           td
            div Categoria: Hostel
