@@ -5,10 +5,11 @@ var Sequelize = require('sequelize'),
     path = require('path'),
     fs = require('fs');
 
-var sequelize = new Sequelize('', null, null, {
-  dialect: 'sqlite',
-  storage: './beehive.sqlite'
-});
+var dbname = './beehive.sqlite',
+    sequelize = new Sequelize('', null, null, {
+        dialect: 'sqlite',
+        storage: dbname
+    });
 
 var guest_fields = {
     id: {
@@ -100,7 +101,12 @@ var Room = sequelize.define('room', {
 });
 
 Guest.belongsTo(Room);
-var soptions  = {force:true};
+var soptions  = {force:false};
+
+if(!fs.existsSync(dbname)) {
+    soptions.force = true;
+}
+
 var roominfo = [{name:"Verde", capacity:10, hostelName: "The BeeHive", price:55, color: "rgba(30,200,30,.5)"},
                 {name:"Azul", capacity:8, hostelName: "The BeeHive", price:55, color: "rgba(30,30,200,.5)"},
                 {name:"Naranja", capacity:6, hostelName: "The BeeHive", price:55, color: "rgba(255, 90, 0, .5)"},
@@ -112,9 +118,11 @@ Room.sync(soptions).then(function() {
 }).then(function() {
     return DeletedGuest.sync(soptions);
 }).then(function () {
-    return Q.all(_.map(roominfo, create_room));
+    if(soptions.force)
+        return Q.all(_.map(roominfo, create_room));
+    return true;
 }).then(function () {
-    var dbfile = __dirname + '/../Check Outs.csv';
+/*    var dbfile = __dirname + '/../Check Outs.csv';
     return Q.all(_.map(imp.parse_checkouts(dbfile), function(guest) {
         return DeletedGuest.create(guest);
     }));
@@ -133,11 +141,16 @@ Room.sync(soptions).then(function() {
     });
     return Q.all(_.map(currents, add_guest));
 }).then(function() {
+*/
     return Guest.findAll();
 }).then(function(res) {
-    console.log(res.length);
-    console.log(res[0].dataValues);
-    return Room.findAll({where: {name: res[0].dataValues.roomName}});
+    var roomName = roominfo[0].name;
+    if(!_.isEmpty(res)) {
+        console.log(res.length);
+        console.log(res[0].dataValues);
+        roomName = res[0].dataValues.roomName;
+    }
+    return Room.findAll({where: {name: roomName}});
 }).then(function(res) {
     console.log(res[0].dataValues);
 //    get_all_guests('The BeeHive');
@@ -223,11 +236,14 @@ function delete_guest(guest_id, date) {
     return Guest.findAll({where: {id:guest_id}})
         .then(function(guest) {
             return Guest.destroy({where: {id:guest_id}})
-            .then(function() {
-                guest = guest[0].dataValues;
-                guest.checkOut = date;
-                return DeletedGuest.create(guest);
-            });
+                .then(function(er) {
+                    console.log(er);
+                    guest = guest[0].dataValues;
+                    guest.checkOut = date;
+                    return DeletedGuest.create(guest);
+            }, function(erro) {
+            console.log(erro);
+        });
         });
 };
 
