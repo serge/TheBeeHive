@@ -263,6 +263,12 @@ function bring_to_midnight(date) {
     return date;
 }
 
+function bring_to_almost_midnight(date) {
+    date.setMinutes(59);
+    date.setSeconds(59);
+    date.setHours(23);
+    return date;
+}
 
 function get_previous_day(date, days) {
     var beforeday = new Date(date);
@@ -274,16 +280,19 @@ function get_previous_day(date, days) {
 function get_all_checkouts(options) {
     var ops = options || {},
         date, untildate,
-        days = 1;
+        days = 1, query = {};
 
     if(_.has(ops, 'period')) {
         days = {day:1, week:7, month:30}[ops.period];
         date = get_previous_day(new Date(), days);
+        bring_to_midnight(date);
         untildate = new Date();
+        bring_to_almost_midnight(untildate);
     } else if(_.has(ops, 'from')) {
         date = new Date(ops.from);
         bring_to_midnight(date);
         untildate = new Date(ops.until || new Date());
+        bring_to_almost_midnight(untildate);
     } else if(_.has(ops, 'name')) {
         return DeletedGuest.findAll()
             .then(function(data) {
