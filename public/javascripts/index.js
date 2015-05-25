@@ -1,5 +1,5 @@
 angular.module('main', ['ui.bootstrap.datetimepicker', 'server', 'utils'])
-.controller('ctr', function($http, $q, $scope) {
+.controller('ctr', function($http, $q, $scope, nationalities) {
 
     $scope.checkedOut = [];
     $scope.migration_date = new Date();
@@ -154,65 +154,6 @@ angular.module('main', ['ui.bootstrap.datetimepicker', 'server', 'utils'])
 
     $scope.short_guest_infos = ['checkOut', 'roomName'];
 
-    $scope.nationalities = ['alemán',
-                            'argentino',
-                            'australiano',
-                            'austriaco',
-                            'belga',
-                            'boliviano',
-                            'brasileño',
-                            'canadiense',
-                            'chileno',
-                            'chino',
-                            'colombiano',
-                            'nortecoreano',
-                            'sudcoreano',
-                            'costarricense',
-                            'cubano',
-                            'danés',
-                            'ecuatoriano',
-                            'egipcio',
-                            'salvadoreño',
-                            'escocés',
-                            'español',
-                            'estadounidense',
-                            'filipino',
-                            'francés',
-                            'galés',
-                            'británico',
-                            'griego',
-                            'guatemalteco',
-                            'haitiano',
-                            'hondureño',
-                            'indio',
-                            'inglés',
-                            'irakí',
-                            'iraní',
-                            'irlandés',
-                            'israelí',
-                            'italiano',
-                            'japonés',
-                            'marroquí',
-                            'mexicano',
-                            'nicaragüense',
-                            'noruego',
-                            'neozelandés',
-                            'holandés',
-                            'palestino',
-                            'panameño',
-                            'paraguayo',
-                            'peruano',
-                            'polaco',
-                            'portugués',
-                            'puertorriqueño',
-                            'dominicano',
-                            'ruso',
-                            'sudafricano',
-                            'sueco',
-                            'suizo',
-                            'taiwanés',
-                            'uruguayo',
-                            'venezolano',
-                            'ucraniano'];
+    $scope.nationalities = nationalities;
     $scope.update();
 });

@@ -1,5 +1,5 @@
-angular.module('main', ['utils'])
-    .controller('ctr', function($http, $scope) {
+angular.module('main', ['utils', 'server'])
+    .controller('ctr', function($http, $scope, nationalities) {
         $scope.update = function(params) {
             $http.get('/guests/checkouts?' + params).success(function(data) {
                 $scope.guest_infos = ['documentId', 'origin', 'destination', 'nationality', 'roomName'];
@@ -60,65 +60,5 @@ angular.module('main', ['utils'])
         $scope.until = new Date();
         $scope.update('day');
 
-    $scope.nationalities = ['alemán',
-                            'argentino',
-                            'australiano',
-                            'austriaco',
-                            'belga',
-                            'boliviano',
-                            'brasileño',
-                            'canadiense',
-                            'chileno',
-                            'chino',
-                            'colombiano',
-                            'nortecoreano',
-                            'sudcoreano',
-                            'costarricense',
-                            'cubano',
-                            'danés',
-                            'ecuatoriano',
-                            'egipcio',
-                            'salvadoreño',
-                            'escocés',
-                            'español',
-                            'estadounidense',
-                            'filipino',
-                            'francés',
-                            'galés',
-                            'británico',
-                            'griego',
-                            'guatemalteco',
-                            'haitiano',
-                            'hondureño',
-                            'indio',
-                            'inglés',
-                            'irakí',
-                            'iraní',
-                            'irlandés',
-                            'israelí',
-                            'italiano',
-                            'japonés',
-                            'marroquí',
-                            'mexicano',
-                            'nicaragüense',
-                            'noruego',
-                            'neozelandés',
-                            'holandés',
-                            'palestino',
-                            'panameño',
-                            'paraguayo',
-                            'peruano',
-                            'polaco',
-                            'portugués',
-                            'puertorriqueño',
-                            'dominicano',
-                            'ruso',
-                            'sudafricano',
-                            'sueco',
-                            'suizo',
-                            'taiwanés',
-                            'uruguayo',
-                            'venezolano',
-                            'ucraniano'];
-
+    $scope.nationalities = nationalities;
     });
