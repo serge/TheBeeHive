@@ -114,5 +114,6 @@ module.exports = {
                     'ucraniano',
                     'uruguayo',
                     'venezolano',
-                    'vietnamito']
+                    'vietnamito',
+                    'otro']
 };
