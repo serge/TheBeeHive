@@ -1,8 +1,7 @@
 angular.module('main', ['utils', 'server'])
-    .controller('ctr', function($http, $scope, colors) {
+    .controller('ctr', function($http, $scope) {
 
         $scope.rooms = [];
-        $scope.colors = colors;
 
         $scope.update = function() {
             $http.get('/rooms').success(function(data) {
