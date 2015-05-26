@@ -1,0 +1,6 @@
+div.alert.alert-dismissible(ng-show="data.msg",  ng-class="data.alert_class", role="alert", ng-style='{position:"fixed", zIndex:1000}')
+  button.close(type="button", ng-click='dismiss()', aria-label="Close")
+    span(aria-hidden="true")&times
+  span.glyphicon.glyphicon-exclamation-sign(aria-hidden="true")
+  span.sr-only Error:
+  div {{data.msg}}

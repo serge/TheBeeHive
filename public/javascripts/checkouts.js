@@ -1,5 +1,5 @@
 angular.module('main', ['utils', 'server'])
-    .controller('ctr', function($http, $scope, nationalities) {
+    .controller('ctr', function($http, $scope, nationalities, alert_user) {
         $scope.update = function(params) {
             $http.get('/guests/checkouts?' + params).success(function(data) {
                 $scope.guest_infos = ['documentId', 'origin', 'destination', 'nationality', 'roomName'];
@@ -27,13 +27,13 @@ angular.module('main', ['utils', 'server'])
         $scope.uncheckout = function(guest) {
             $http.post("/guest/uncheckout/" + guest.id)
             .success(function(data) {
-                $scope.msg = "Success";
+                alert_user.msg_success('"' + guest.firstName + ' ' + guest.lastName + '" esta en el cuarto "' + guest.roomName + '"');
                 $scope.guests.splice(_.findIndex($scope.guests, guest), 1);
             }).error(function(data) {
-                $scope.error_msg = "No se puede anadir \""
+                alert_user.msg_error("No se puede anadir \""
                     + guest.firstName + " "
                     + guest.lastName + "\" in cuarto " + guest.roomName
-                    + ". " + data.msg;
+                    + ". " + data.msg);
             });
         };
 
@@ -47,12 +47,13 @@ angular.module('main', ['utils', 'server'])
         };
         $scope.on_checkin_validate = function(new_guest) {
             $http.post('/guest', new_guest).success(function(data) {
-                console.log("success");
+                var guest = new_guest;
+                alert_user.msg_success('"' + guest.firstName + ' ' + guest.lastName + '" esta en el cuarto "' + guest.roomName + '" de nuevo!');
             }).error(function(data) {
-                $scope.error_msg = "No se puede anadir \""
+                alert_user.msg_error("No se puede anadir \""
                     + new_guest.firstName + " "
                     + new_guest.lastName + "\" in cuarto " + new_guest.roomName
-                    + ". " + data.msg;
+                    + ". " + data.msg);
             });
         };
 

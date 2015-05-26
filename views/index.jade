@@ -6,13 +6,8 @@ block head
 
 block content
  div(ng-app='main' ng-controller='ctr')
-  div.alert.alert-dismissible(ng-show="error_msg", ng-class="{'alert-danger':true}", role="alert")
-    button.close(type="button", data-dismiss="alert", aria-label="Close")
-     span(aria-hidden="true")&times
-    span.glyphicon.glyphicon-exclamation-sign(aria-hidden="true")
-    span.sr-only Error:
-    div {{error_msg}}
   div.container
+    alerts
   div.modal.fade#YesNoModal(tabindex="-1", role="dialog", aria-labelledby="myModalLabel", aria-hidden="true")
     div.modal-dialog
       div.modal-content
@@ -60,7 +55,7 @@ block content
            form.form(novalidate)
                div.form-group
                  label.control-label Capacidad
-                 input.form-control(type="number", ng-model='sroom.capacity', min="{{rooms[sroom.name].guests.length}}", integer)
+                 input.form-control(type="number", ng-model='sroom.capacity', integer)
                  br
                  span Camas ocupadas {{rooms[sroom.name].guests.length}}
               div.modal-footer
@@ -75,13 +70,15 @@ block content
              span(aria-hidden="true") &times
            h4.modal-title Check Out
          div.modal-body
-           form.form-inline(novalidate)
+           form.form(novalidate)
                div.form-group
                  p Hacer el checkout de(s)
                div.form-group(ng-repeat="g in guestToCheckout")
-                 div.row {{g.firstName}} {{g.lastName}}
                  div.form-group
-                   label Fecha de entrado
+                   b Huesped:
+                   &nbsp{{g.firstName}} {{g.lastName}}
+                 div.form-group
+                   label Fecha de entrada
                    input.form-control(type='date', ng-model='g.checkIn', disabled)
                  div.form-group
                    label Fecha de salida
@@ -175,7 +172,6 @@ block content
                 a(href="/checkouts",target='_blank') All Checkouts
               div.btn.btn-default(type="button")
                 a(href="/rooms/all",target='_blank') Cuartos
-
         div.page-header
           h1 The BeeHive
         div(ng-repeat="(roomname,data) in rooms")
@@ -185,7 +181,7 @@ block content
               thead
                 tr
                   th
-                  th(colspan=3) {{roomname}} Occupied {{data.guests.length}} / {{data.capacity}}
+                  th(colspan=3) {{roomname}} (Ocupado {{data.guests.length}} / {{data.capacity}})
                   th(colspan=0)
                     button.btn.btn-default(type="button", data-toggle="modal", data-target="#checkIn", ng-class='{disabled:data.guests.length === data.capacity}', ng-click="init_check_in(roomname)") Check in
                   th

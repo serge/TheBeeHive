@@ -25,7 +25,8 @@ room.get('/:roomname', function(req, res, next) {
                 room: room
             });
         }, function(error) {
-            res.json({result: 'Error'});
+            res.status(403);
+            res.json({error: error});
         });
 }).post('/',function(req,res,next){
     var roominfo = req.body;

@@ -176,12 +176,13 @@ function create_room(room) {
 }
 
 function update_room(room) {
-    return Room.insertOrUpdate(room)
-        .then(function(a) {
-            console.log('OX', a);
-            }, function(a) {
-            console.log('error', a);
-            });
+    return guests_per_room(room.name)
+    .then(function(guests) {
+        if(guests.length > room.capacity) {
+            return Q.reject('Cuarto "' + room.name + '" tiene demasiado huespedes no se puede cambiar el numero de camas.');
+        }
+        return Room.insertOrUpdate(room);
+    });
 }
 
 function delete_room(roomname) {
@@ -191,7 +192,7 @@ function delete_room(roomname) {
             return guests_per_room(room.name);
         }).then(function(guests) {
             if(!_.isEmpty(guests))
-                return Q.reject("Room is not empty");
+                return Q.reject("Todavia hay huespedes en el cuarto.");
             return Room.destroy({where: {name:roomname}});
         });
 }

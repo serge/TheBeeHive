@@ -1,5 +1,5 @@
 angular.module('main', ['utils', 'server'])
-    .controller('ctr', function($http, $scope) {
+    .controller('ctr', function($http, $scope, alert_user) {
 
         $scope.rooms = [];
 
@@ -12,7 +12,10 @@ angular.module('main', ['utils', 'server'])
         $scope.delete_room = function(roomname) {
             $http.delete('/room/' + roomname)
                 .success(function(data) {
+                alert_user.msg_success("Se ha borrado el cuarto \"" + roomname + '".');
                     $scope.update();
+            }).error(function(data) {
+                alert_user.msg_error("No se puede borrar este cuarto." + data.msg);
             });
         };
 
@@ -25,14 +28,20 @@ angular.module('main', ['utils', 'server'])
             console.log(new_room);
             $http.post('/room', new_room)
                 .success(function(data) {
+                    alert_user.msg_success("Se ha aǹadido el cuarto \"" + new_room.name + '" con exito.');
                     $scope.update();
-            });
+            }).error(function(data) {
+                alert_user.msg_error("Se ha aǹadido el cuarto \"" + new_room.name + '".' + data.msg);
+});
         };
 
         function edit_room(new_room) {
             $http.put('/room', new_room)
                 .success(function(data) {
+                    alert_user.msg_success('Ha cambiado los propiedades del cuarto');
                     $scope.update();
+            }).error(function(data) {
+                alert_user.msg_error(data.error);
             });
         };
 

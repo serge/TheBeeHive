@@ -1,5 +1,5 @@
 angular.module('main', ['ui.bootstrap.datetimepicker', 'server', 'utils'])
-.controller('ctr', function($http, $q, $scope, nationalities) {
+.controller('ctr', function($http, $q, $scope, nationalities, $timeout, alert_user) {
 
     $scope.checkedOut = [];
     $scope.migration_date = new Date();
@@ -22,7 +22,11 @@ angular.module('main', ['ui.bootstrap.datetimepicker', 'server', 'utils'])
     $scope.update_room = function(sroom) {
         $http.put('/room', sroom)
             .success(function(data) {
+                alert_user.msg_success('Ha cambiado los propiedades del cuarto');
                 $scope.update();
+            }).error(function(data) {
+                alert_user.msg_error(data.error);
+
             });
     };
 
@@ -65,8 +69,8 @@ angular.module('main', ['ui.bootstrap.datetimepicker', 'server', 'utils'])
             onok: function() {
                 $http.delete('/guest/' + guest.id)
                     .success(function(res) {
-                        console.log(res);
                         $scope.update();
+                        alert_user.msg_success('Usted ha borrado "' + guest.firstName + ' ' + guest.lastName + '" con exito.');
                     });
             }
         };
@@ -75,13 +79,13 @@ angular.module('main', ['ui.bootstrap.datetimepicker', 'server', 'utils'])
     function makeCheckIn(new_guest) {
         console.log(new_guest);
         $http.post('/guest', new_guest).success(function(data) {
-            console.log(data);
             $scope.rooms[data.guest.roomName].guests.push(data.guest);
+            alert_user.msg_success('Usted ha hecho checkin de "' + new_guest.firstName + ' ' + new_guest.lastName + '" con exito');
         }).error(function(data) {
-            $scope.error_msg = "No se puede anadir \""
+            alert_user.msg_error("No se puede anadir \""
                 + new_guest.firstName + " "
                 + new_guest.lastName + "\" in cuarto " + new_guest.roomName
-                + ". " + data.msg;
+                + ". " + data.msg);
         });
     };
 
@@ -95,14 +99,14 @@ angular.module('main', ['ui.bootstrap.datetimepicker', 'server', 'utils'])
         delete new_guest.id;
         $http.put('/guest/' + id, new_guest)
             .success(function(data) {
-                console.log(data);
+                alert_user.msg_success('Usted ha cambiado la informacion de "' + new_guest.firstName + ' ' + new_guest.lastName + '" con exito');
                 $scope.update();
         }).error(function(data) {
-            $scope.error_msg = "No se puede cambiar \""
+            alert_user.msg_error("No se puede cambiar \""
                 + new_guest.firstName + " "
                 + new_guest.lastName + "\" in cuarto "
                 + new_guest.roomName
-                + ". " + data.msg;
+                + ". " + data.msg);
         });
     };
 
@@ -135,9 +139,10 @@ angular.module('main', ['ui.bootstrap.datetimepicker', 'server', 'utils'])
             _.each(data, function(data) {
                 $scope.checkedOut.push(data.data.guest);
             });
+            alert_user.msg_success('Usted ha hecho checkout con exito');
             $scope.update();
         }, function(data) {
-            console.log(data);
+            alert_user.msg_error(data);
         });
     };
 
@@ -146,6 +151,11 @@ angular.module('main', ['ui.bootstrap.datetimepicker', 'server', 'utils'])
             .success(function() {
                 $scope.checkedOut.splice(_.findIndex($scope.checkedOut, guest), 1);
                 $scope.update();
+            }).error(function(data) {
+                alert_user.msg_error("No se puede anadir \""
+                    + guest.firstName + " "
+                    + guest.lastName + "\" in cuarto " + guest.roomName
+                    + ". " + data.msg);
             });
     };
 

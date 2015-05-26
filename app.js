@@ -36,7 +36,6 @@ app.use('/room', rroom.room);
 // catch 404 and forward to error handler
 app.get('/partials/:name', function (req, res) {
     var name = req.params.name;
-    console.log(name);
     res.render('partials/' + name);
 });
 

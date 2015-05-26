@@ -16,4 +16,40 @@ angular.module('utils', ['ui.bootstrap.datetimepicker'])
                 };
             }
         };
+    })
+    .service('alert_user', function($rootScope) {
+        function set_message(msg, aclass) {
+            $rootScope.$broadcast('alert_message',
+                                  {
+                                      msg:msg,
+                                      alert_class: aclass
+                                  });
+        }
+        var that = {set_message: set_message};
+        return {
+            msg_error: function(msg) {
+                that.set_message(msg, {'alert-danger':true});
+            },
+            msg_success: function(msg) {
+                that.set_message(msg, {'alert-success':true});
+            }
+        };
+    })
+    .directive('alerts', function($timeout) {
+        return {
+            restrict: "E",
+            templateUrl: "/partials/alerts",
+            scope: {
+            },
+            link: function(scope, elem, attr) {
+                function dismiss() {
+                    delete scope.data.msg;
+                }
+                scope.dismiss = dismiss;
+                scope.$on('alert_message', function(event, data) {
+                    scope.data = data;
+                    $timeout(dismiss, 5000);
+                });
+            }
+        };
     });

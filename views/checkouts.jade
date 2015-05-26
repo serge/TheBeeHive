@@ -6,12 +6,7 @@ block head
 
 block content
  div(ng-app='main' ng-controller='ctr')
-  div.alert.alert-dismissible(ng-show="error_msg", ng-class="{'alert-danger':true}", role="alert")
-    button.close(type="button", data-dismiss="alert", aria-label="Close")
-     span(aria-hidden="true")&times
-    span.glyphicon.glyphicon-exclamation-sign(aria-hidden="true")
-    span.sr-only Error:
-    div {{error_msg}}
+  alerts
   div.container
   div.modal.fade#checkIn(tabindex="-1", role="dialog", aria-labelledby="myModalLabel", aria-hidden="true")
     div.modal-dialog

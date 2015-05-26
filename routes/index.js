@@ -10,8 +10,11 @@ var router = express.Router(),
 /* GET home page. */
 router.get('/', function(req, res, next) {
   res.render('index', server_data);
+});
 
-
+/* GET help page. */
+router.get('/help', function(req, res, next) {
+  res.render('help', server_data);
 });
 
 router.get('/calendar', function(req, res, next) {
