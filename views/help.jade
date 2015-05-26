@@ -1,0 +1,183 @@
+extends layout
+block head
+  title Ayuada
+block content
+  div.page-header
+    h2 Ayuda
+  div.container
+   div.row
+     h3 Pagina principal
+    p Para aceder la pagina hay que abrir un cualquier navegador et ir al&nbsp
+      a(href="http://localhost:3000") http://localhost:3000
+      div.thumbnail
+        img(src="/images/adress.png")
+   div.row
+    p
+      b Check In.
+      &nbspPara hacer checkin de huesped hay que pulsar sobre&nbsp
+      button.btn.btn-default Check In
+      &nbsp en la cabecera de uno de los cuartos.
+      div.thumbnail
+        img(src="/images/checkin.png")
+      br
+      &nbspDespues de entrar la informacion de huesped hay que pulsar&nbsp
+      button.btn.btn-primary Check In
+      &nbsp para enregistar el huesped en la sistema.
+      div.thumbnail
+        img(src="/images/checkinform.png")
+    p
+      b Check Out.
+      &nbspHay dos opciones para hacer checkout: Check out rapido et check out avancado.&nbsp
+      i Check out rapido
+      &nbsp se puede hacer pulsando el&nbsp
+      button.btn.btn-default CheckOut
+      &nbspen el fila con la informacion del huesped.
+      div.thumbnail
+        img(src="/images/checkoutquick.png")
+      &nbspEsta acción va a hacer checkout inmediatamente para el misma dia.
+    p Para hacer el&nbsp
+      i Check Out avancado
+      &nbsphay que
+      div.thumbnail
+        img(src="/images/selected_guest.png")
+      &nbspescoger las huespedes de quines quieres hacer checkout et pulsar sobre&nbsp
+      button.btn.btn-default Check Out
+      &nbsparriba de la pagina.
+      div.thumbnail
+        img(src="/images/checkout.png")
+      &nbspEsta acción va a abrir el diálogo donde se puede cambiar la fecha de salida de cado huesped.
+      div.thumbnail
+        img(src="/images/checkout_dlg.png")
+      Para enregistar checkout en la sistema hay que pulsar sobre&nbsp
+      button.btn.btn-primary Check Out
+      &nbsp.
+     p Para&nbsp
+       b cambiar
+       &nbspla informacion del huesped hay que pulsar&nbsp
+       div.thumbnail
+         img(src="/images/edit_guest.png")
+       &nbspet un dialogo igual al dialogo de checkin se va a abrir donde se puede cambiar la informacion del huesped. Para enregistar la informacion en la sistema hay que pulsar&nbsp
+       button.btn.btn-primary Check In
+     p Si necesita borrar un huepsed en caso de error hay que pulsar&nbsp
+       div.thumbnail
+         img(src="/images/delete_guest.png")
+       b ATTENTION
+       &nbspesto va a borrar el huesped completamente de la sistema!
+     p Si necesita cambiar solamente la fecha de salida del huesped hay que pulsar sobre la fecha de salida del huepsed
+       div.thumbnail
+          img(src="/images/checkoutdate.png")
+       &nbspet escoger nueva fecha en el dialogo para enregistar hay que pulsar&nbsp
+       button.btn Confirmar
+     p Para cambiar el numero de camas en el cuarto hay que pulsar&nbsp
+       div.thumbnail
+          img(src="/images/cuartosettings.png")
+     p Para cancelar un checkout reciente hay que pulsar
+       div.thumbnail
+          img(src="/images/anular_checkout.png")
+       &nbspUn dialogo va aparecer
+       div.thumbnail
+          img(src="/images/anulardlg.png")
+       &nbspPara anular el checkout hay que pulsar sobre&nbsp
+       button.btn.btn-default Anular
+       &nbsp
+     p Para exportar un spreadsheet de los huespedes en hostal usa
+       div.thumbnail
+          img(src="/images/export_beehive.png")
+       &nbspo de los huespedes que ya han salido de hostal usa
+       div.thumbnail
+          img(src="/images/export_checkouts.png")
+     p Para abrir una pagina con calendar usa
+       div.thumbnail
+          img(src="/images/calendar.png")
+     p Para abrir una pagina con una lista de huespedes que han salido de hostal usa
+       div.thumbnail
+          img(src="/images/all_checkouts.png")
+     p Para areglar cuartos o aǹadir cuartos usa
+       div.thumbnail
+          img(src="/images/cuartos.png")
+     p Para crear una pagina para la servicio de imigracion hay que pulsar
+       div.thumbnail
+          img(src="/images/migration.png")
+       &nbsppues hay que escoger la fecha de la pagina
+     p
+       b Notificaciones
+       &nbspdespues de casi cada accion sistema va a responder con un mensaje de exito verde si todo pasó bien
+       div.thumbnail
+          img(src="/images/success.png")
+       &nbspor con un mensaje de error rojo.
+       div.thumbnail
+          img(src="/images/error.png")
+       &nbspestos mensajes van a disparecer despues de 5 segundos o los puedes cerrar con pulsando sobre el cruz arriba a la derecha.
+       div.thumbnail
+          img(src="/images/close_alert.png")
+   br
+   div.row
+     h3 Pagina de Check outs
+    p En esta pagina se puede ver todos los huespedes que han salido de hostal. Hay varios filtros que puedes usar.
+    p Filtro por periodo del tiempo (ultimo dia, ultima semana o ultimo mez)
+      div.thumbnail
+        img(src="/images/filter_date.png")
+    p Filtro desde una fecha hasta otra fecha
+      div.thumbnail
+        img(src="/images/filter_from.png")
+    p Filtro por un nombre del huesped
+      div.thumbnail
+        img(src="/images/filter_name.png")
+    p Tambien esta pagina permite de anular check out de un huesped o hacer un nuevo check in de un huesped (para evitar de entar su informacion de nuevo)
+      div.thumbnail
+        img(src="/images/checkout_btn.png")
+   div.row
+     h3 Pagina de configuración de cuartos
+     p En esta pagina se puede arreglar, aǹadir o borrar cuartos del hostal.
+     p Para aǹadir un cuarto hay que pulsar
+      div.thumbnail
+        img(src="/images/add_room.png")
+      &nbspun dialogo va a aparecer donde hay que entrar el nobre de cuarto el numero de camas y el precio (no sirve ahora para nada :-) ) et pues pulsar sobre "Aǹadir"
+      div.thumbnail
+        img(src="/images/add_room_dlg.png")
+      &nbspla sistema va a escoger un color de cuarto automaticamente
+     p Para cambiar información del cuarto hay que pulsar sobre
+      div.thumbnail
+        img(src="/images/change_room.png")
+     p El mismo dialogo va a aparecer donde puedes cambiar informacion del cuarto.
+       b Atencion
+       &nbspsi hay mas huespedes en el cuarto que numero de camas que desea la sistema no le daja cambiarlo (hay que hacer checkout o moverlos en un otro cuarto)
+     p Para borrar un cuarto de la sistema definitamente hay que pulsar sobre
+      div.thumbnail
+        img(src="/images/delete_room.png")
+     p
+       b Atencion
+       &nbspsi hay huespedes en el cuarto la sistema no le daja borrarlo (hay que hacer checkout o moverlos en un otro cuarto).
+   div.row
+     h3 Copia de seguridad
+     p La sistema hace una copia de seguridad cada medianoche. Si algo pasa et la sistema va a perder las informaciones de todos los huespedes es posible de utilisar la copia de seguridad.
+     p La copia de seguridad se encuentra en "C:\Apps\TheBeeHive\beehive.sqlite.xxxx_xx_xx_xx_xx_xx", "xxxx_xx_xx_xx_xx_xx" - es la fecha quando la sistema hico esta copia.
+     p Para reiniciar la sistema con esta copia hay que hacer siguentes pasos
+       ul
+        li parar el servicio
+        li reiniciar los datos de la sistema con la copia de seguridad
+        li reiniciar el servicio
+     p
+      h4 Para parar el servicio
+      , hay que pulsar el botón "Start" et despues hacer clic con el botón derecho del ratón sobre "Computer" et seleccionar "manage"
+      div.thumbnail
+        img(src="/images/runmenu.png")
+     p Despues hay que seleccionar "Services" en el panel derecho
+      div.thumbnail
+        img(src="/images/manage.png")
+     p Luego hay que buscar el la lista de servicios uno que se llama "TheBeeHive" hacer clic con el botón derecho del ratón sobre el servicio et seleccionar "Stop"
+      div.thumbnail
+        img(src="/images/stop.png")
+     p
+       h4 Para reiniciar los datos con copia de seguridad
+       , hay que abrir navegador de archivos et buscar la copia de seguridad que se encuentra en siguente lugar "C:\Apps\TheBeeHive\beehive.sqlite.xxxx_xx_xx_xx_xx_xx"
+       div.thumbnail
+         img(src="/images/backup.png")
+     p Hay que hacer una copia de archivo "beehive.sqlite.xxxx_xx_xx_xx_xx_xx" et renombrarla en "beehive.sqlite" (si ya hay un archivo con esto nombre hay que borrar(o renombrarlo)).
+     p
+       h4 Para reiniciar el servicio
+       &nbsphay que revolver al pagina de "management" hacer clic del botón derecho del ratón sobre el servicio "TheBeeHive" et seleccionar "Start"
+       div.thumbnail
+         img(src="/images/start.png")
+     p
+       b Listo la sistema debe tener casi todos los huespedes
